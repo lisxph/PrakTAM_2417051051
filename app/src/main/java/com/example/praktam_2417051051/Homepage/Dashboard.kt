@@ -10,7 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,11 +25,19 @@ import com.example.praktam_2417051051.R
 import com.example.praktam_2417051051.ui.theme.PrakTAM_2417051051Theme
 
 @Composable
-fun Dashboard() {
+fun Dashboard(
+    onNavigateToJournal: () -> Unit = {},
+    onNavigateToHome: () -> Unit = {}
+) {
     val scrollState = rememberScrollState()
-    
+
     Scaffold(
-        bottomBar = { DashboardBottomNavigationBar() }
+        bottomBar = { 
+            DashboardBottomNavigationBar(
+                onHomeClick = onNavigateToHome,
+                onJournalClick = onNavigateToJournal
+            ) 
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -39,7 +47,7 @@ fun Dashboard() {
                 .verticalScroll(scrollState)
         ) {
             DashboardWelcomeCard(modifier = Modifier.padding(16.dp))
-            
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -49,11 +57,32 @@ fun Dashboard() {
             ) {
                 DashboardTaskCard()
                 Spacer(modifier = Modifier.height(16.dp))
-                DashboardToDoListCard()
+                
+                DashboardFeatureCard(
+                    title = "To-Do List",
+                    description = "What are you gonna do today?",
+                    buttonText = "List Here",
+                    imageRes = R.drawable.todo,
+                    onButtonClick = {  }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
-                DashboardMoodTrackerCard()
+
+                DashboardFeatureCard(
+                    title = "Mood Tracker",
+                    description = "How do you feel today?",
+                    buttonText = "Track Mood",
+                    imageRes = R.drawable.mood,
+                    onButtonClick = {  }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
-                DashboardJournalCard()
+
+                DashboardFeatureCard(
+                    title = "Journal",
+                    description = "What's on your mind?",
+                    buttonText = "Write Here",
+                    imageRes = R.drawable.journal,
+                    onButtonClick = onNavigateToJournal
+                )
                 Spacer(modifier = Modifier.height(32.dp))
             }
         }
@@ -137,10 +166,10 @@ fun DashboardTaskCard() {
                 Text(text = "Tasks: 3 left", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color.Black)
                 Text(text = "0 Complete", fontSize = 14.sp, color = Color.DarkGray)
             }
-            IconButton(onClick = { /* TODO */ }) {
+            IconButton(onClick = { }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = "Go to Tasks",
+                    contentDescription = null,
                     modifier = Modifier.size(28.dp),
                     tint = Color.Black
                 )
@@ -150,32 +179,41 @@ fun DashboardTaskCard() {
 }
 
 @Composable
-fun DashboardToDoListCard() {
+fun DashboardFeatureCard(
+    title: String,
+    description: String,
+    buttonText: String,
+    imageRes: Int,
+    onButtonClick: () -> Unit
+) {
     Card(
-        modifier = Modifier.fillMaxWidth().height(220.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(240.dp),
         shape = RoundedCornerShape(32.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFEBD4FF))
     ) {
         Row(
-            modifier = Modifier.padding(20.dp).fillMaxSize(),
+            modifier = Modifier
+                .padding(20.dp)
+                .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = "To-Do List", fontWeight = FontWeight.Bold, fontSize = 22.sp, color = Color.Black)
-                Text(text = "What are you gonna do today?", fontSize = 14.sp, color = Color.DarkGray)
-                Spacer(modifier = Modifier.height(16.dp))
+                Text(text = title, fontWeight = FontWeight.Bold, fontSize = 24.sp, color = Color.Black)
+                Text(text = description, fontSize = 14.sp, color = Color.DarkGray)
+                Spacer(modifier = Modifier.height(20.dp))
                 Button(
-                    onClick = { /* TODO */ },
+                    onClick = onButtonClick,
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     shape = RoundedCornerShape(20.dp),
-                    contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp),
-                    modifier = Modifier.height(40.dp)
+                    modifier = Modifier.height(44.dp)
                 ) {
-                    Text(text = "List Here", color = Color(0xFF9C27B0), fontWeight = FontWeight.Bold)
+                    Text(text = buttonText, color = Color(0xFF9C27B0), fontWeight = FontWeight.Bold)
                 }
             }
             Image(
-                painter = painterResource(id = R.drawable.todo),
+                painter = painterResource(id = imageRes),
                 contentDescription = null,
                 modifier = Modifier.size(130.dp),
                 contentScale = ContentScale.Fit
@@ -185,77 +223,10 @@ fun DashboardToDoListCard() {
 }
 
 @Composable
-fun DashboardMoodTrackerCard() {
-    Card(
-        modifier = Modifier.fillMaxWidth().height(220.dp),
-        shape = RoundedCornerShape(32.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFEBD4FF))
-    ) {
-        Row(
-            modifier = Modifier.padding(20.dp).fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(text = "Mood Tracker", fontWeight = FontWeight.Bold, fontSize = 22.sp, color = Color.Black)
-                Text(text = "What are you gonna do today?", fontSize = 14.sp, color = Color.DarkGray)
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    onClick = { /* TODO */ },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                    shape = RoundedCornerShape(20.dp),
-                    contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp),
-                    modifier = Modifier.height(40.dp)
-                ) {
-                    Text(text = "Track Mood", color = Color(0xFF9C27B0), fontWeight = FontWeight.Bold)
-                }
-            }
-            Image(
-                painter = painterResource(id = R.drawable.mood),
-                contentDescription = null,
-                modifier = Modifier.size(130.dp),
-                contentScale = ContentScale.Fit
-            )
-        }
-    }
-}
-
-@Composable
-fun DashboardJournalCard() {
-    Card(
-        modifier = Modifier.fillMaxWidth().height(220.dp),
-        shape = RoundedCornerShape(32.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFEBD4FF))
-    ) {
-        Row(
-            modifier = Modifier.padding(20.dp).fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(text = "Journal", fontWeight = FontWeight.Bold, fontSize = 22.sp, color = Color.Black)
-                Text(text = "What's on your mind?", fontSize = 14.sp, color = Color.DarkGray)
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    onClick = { /* TODO */ },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                    shape = RoundedCornerShape(20.dp),
-                    contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp),
-                    modifier = Modifier.height(40.dp)
-                ) {
-                    Text(text = "Write Here", color = Color(0xFF9C27B0), fontWeight = FontWeight.Bold)
-                }
-            }
-            Image(
-                painter = painterResource(id = R.drawable.journal),
-                contentDescription = null,
-                modifier = Modifier.size(130.dp),
-                contentScale = ContentScale.Fit
-            )
-        }
-    }
-}
-
-@Composable
-fun DashboardBottomNavigationBar() {
+fun DashboardBottomNavigationBar(
+    onHomeClick: () -> Unit,
+    onJournalClick: () -> Unit
+) {
     BottomAppBar(
         containerColor = Color(0xFFD1B2FF),
         contentColor = Color.Black,
@@ -272,7 +243,7 @@ fun DashboardBottomNavigationBar() {
                 shape = CircleShape,
                 color = Color.White
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = onHomeClick) {
                     Image(
                         painter = painterResource(id = R.drawable.icon_home),
                         contentDescription = "Home",
@@ -280,28 +251,28 @@ fun DashboardBottomNavigationBar() {
                     )
                 }
             }
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { }) {
                 Image(
                     painter = painterResource(id = R.drawable.icon_todo),
                     contentDescription = "To-Do",
                     modifier = Modifier.size(26.dp)
                 )
             }
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { }) {
                 Image(
                     painter = painterResource(id = R.drawable.icon_mood),
                     contentDescription = "Mood",
                     modifier = Modifier.size(26.dp)
                 )
             }
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = onJournalClick) {
                 Image(
                     painter = painterResource(id = R.drawable.icon_journal),
                     contentDescription = "Journal",
                     modifier = Modifier.size(26.dp)
                 )
             }
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { }) {
                 Image(
                     painter = painterResource(id = R.drawable.icon_setting),
                     contentDescription = "Settings",
