@@ -3,10 +3,9 @@ package com.example.praktam_2417051051.Homepage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -21,44 +20,65 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.praktam_2417051051.R
+import com.example.praktam_2417051051.model.Journal
+import com.example.praktam_2417051051.model.JournalData
 
 @Composable
 fun JournalPage(
     onNavigateToHome: () -> Unit = {}
 ) {
-    val scrollState = rememberScrollState()
-
     Scaffold(
-        bottomBar = { 
-            JournalBottomNavigationBar(onHomeClick = onNavigateToHome) 
+        bottomBar = {
+            JournalBottomNavigationBar(onHomeClick = onNavigateToHome)
         }
     ) { innerPadding ->
-        Column(
+
+        LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(Color(0xFFF5EEFF))
-                .verticalScroll(scrollState)
-                .padding(16.dp)
+                .background(Color(0xFFF5EEFF)),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text(
-                text = "My Journal",
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF9C27B0),
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
 
-            repeat(5) {
-                JournalCard()
-                Spacer(modifier = Modifier.height(16.dp))
+            item {
+                Text(
+                    text = "My Journal",
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF9C27B0)
+                )
+            }
+
+            item {
+                Text(
+                    text = "Favorite Journals",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(JournalData.journals) { journal ->
+                        SmallJournalCard(journal)
+                    }
+                }
+            }
+
+            items(JournalData.journals) { journal ->
+                JournalCard(journal)
             }
         }
     }
 }
 
 @Composable
-fun JournalCard() {
+fun JournalCard(journal: Journal) {
     var isFavorite by remember { mutableStateOf(false) }
 
     Card(
@@ -73,7 +93,7 @@ fun JournalCard() {
         ) {
             Column {
                 Text(
-                    text = "Journal Entry",
+                    text = journal.title,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     color = Color.Black
@@ -85,7 +105,7 @@ fun JournalCard() {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Hari ini adalah hari yang produktif. Saya belajar banyak hal baru tentang pengembangan Android menggunakan Jetpack Compose...",
+                    text = journal.desc,
                     fontSize = 14.sp,
                     color = Color.DarkGray
                 )
@@ -97,10 +117,33 @@ fun JournalCard() {
             ) {
                 Icon(
                     imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                    contentDescription = "Favorite",
+                    contentDescription = null,
                     tint = if (isFavorite) Color.Red else Color.White
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun SmallJournalCard(journal: Journal) {
+    Card(
+        modifier = Modifier.width(140.dp),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFEBD4FF))
+    ) {
+        Column(modifier = Modifier.padding(12.dp)) {
+            Text(
+                text = journal.title,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = journal.desc,
+                fontSize = 12.sp,
+                maxLines = 2
+            )
         }
     }
 }
@@ -111,9 +154,7 @@ fun JournalBottomNavigationBar(
 ) {
     BottomAppBar(
         containerColor = Color(0xFFD1B2FF),
-        contentColor = Color.Black,
-        modifier = Modifier.clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)),
-        tonalElevation = 8.dp
+        modifier = Modifier.clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -123,25 +164,24 @@ fun JournalBottomNavigationBar(
             IconButton(onClick = onHomeClick) {
                 Image(
                     painter = painterResource(id = R.drawable.icon_home),
-                    contentDescription = "Home",
+                    contentDescription = null,
                     modifier = Modifier.size(26.dp)
                 )
             }
             IconButton(onClick = { }) {
                 Image(
                     painter = painterResource(id = R.drawable.icon_todo),
-                    contentDescription = "To-Do",
+                    contentDescription = null,
                     modifier = Modifier.size(26.dp)
                 )
             }
             IconButton(onClick = { }) {
                 Image(
                     painter = painterResource(id = R.drawable.icon_mood),
-                    contentDescription = "Mood",
+                    contentDescription = null,
                     modifier = Modifier.size(26.dp)
                 )
             }
-            // Journal icon selected in JournalPage
             Surface(
                 modifier = Modifier.size(52.dp),
                 shape = CircleShape,
@@ -150,7 +190,7 @@ fun JournalBottomNavigationBar(
                 IconButton(onClick = { }) {
                     Image(
                         painter = painterResource(id = R.drawable.icon_journal),
-                        contentDescription = "Journal",
+                        contentDescription = null,
                         modifier = Modifier.size(26.dp)
                     )
                 }
@@ -158,7 +198,7 @@ fun JournalBottomNavigationBar(
             IconButton(onClick = { }) {
                 Image(
                     painter = painterResource(id = R.drawable.icon_setting),
-                    contentDescription = "Settings",
+                    contentDescription = null,
                     modifier = Modifier.size(26.dp)
                 )
             }
