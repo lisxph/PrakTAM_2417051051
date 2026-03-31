@@ -11,14 +11,11 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.praktam_2417051051.R
 import com.example.praktam_2417051051.model.Journal
 import com.example.praktam_2417051051.model.JournalData
@@ -37,7 +34,7 @@ fun JournalPage(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(Color(0xFFF5EEFF)),
+                .background(MaterialTheme.colorScheme.background),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -45,18 +42,16 @@ fun JournalPage(
             item {
                 Text(
                     text = "My Journal",
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF9C27B0)
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
 
             item {
                 Text(
                     text = "Favorite Journals",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -84,7 +79,9 @@ fun JournalCard(journal: Journal) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(28.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFD1B2FF))
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primary
+        )
     ) {
         Box(
             modifier = Modifier
@@ -94,20 +91,18 @@ fun JournalCard(journal: Journal) {
             Column {
                 Text(
                     text = journal.title,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    color = Color.Black
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 HorizontalDivider(
-                    color = Color.White.copy(alpha = 0.6f),
-                    thickness = 1.dp
+                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = journal.desc,
-                    fontSize = 14.sp,
-                    color = Color.DarkGray
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
 
@@ -118,7 +113,10 @@ fun JournalCard(journal: Journal) {
                 Icon(
                     imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                     contentDescription = null,
-                    tint = if (isFavorite) Color.Red else Color.White
+                    tint = if (isFavorite)
+                        MaterialTheme.colorScheme.error
+                    else
+                        MaterialTheme.colorScheme.onPrimary
                 )
             }
         }
@@ -130,19 +128,22 @@ fun SmallJournalCard(journal: Journal) {
     Card(
         modifier = Modifier.width(140.dp),
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFEBD4FF))
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondary
+        )
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(
                 text = journal.title,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = journal.desc,
-                fontSize = 12.sp,
-                maxLines = 2
+                style = MaterialTheme.typography.bodySmall,
+                maxLines = 2,
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }
@@ -153,7 +154,7 @@ fun JournalBottomNavigationBar(
     onHomeClick: () -> Unit
 ) {
     BottomAppBar(
-        containerColor = Color(0xFFD1B2FF),
+        containerColor = MaterialTheme.colorScheme.primary,
         modifier = Modifier.clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
     ) {
         Row(
@@ -185,7 +186,7 @@ fun JournalBottomNavigationBar(
             Surface(
                 modifier = Modifier.size(52.dp),
                 shape = CircleShape,
-                color = Color.White
+                color = MaterialTheme.colorScheme.surface
             ) {
                 IconButton(onClick = { }) {
                     Image(

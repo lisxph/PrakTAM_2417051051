@@ -63,7 +63,7 @@ fun Dashboard(
                     description = "What are you gonna do today?",
                     buttonText = "List Here",
                     imageRes = R.drawable.todo,
-                    onButtonClick = {  }
+                    onButtonClick = { /* Navigasi To-Do nantinya */ }
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -72,7 +72,7 @@ fun Dashboard(
                     description = "How do you feel today?",
                     buttonText = "Track Mood",
                     imageRes = R.drawable.mood,
-                    onButtonClick = {  }
+                    onButtonClick = { /* Navigasi Mood nantinya */ }
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -189,7 +189,7 @@ fun DashboardFeatureCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(240.dp),
+            .height(240.dp), // Perbesar tinggi kartu
         shape = RoundedCornerShape(32.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFEBD4FF))
     ) {
