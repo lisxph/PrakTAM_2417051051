@@ -1,4 +1,4 @@
-package com.example.praktam_2417051051.model
+package com.example.praktam_2417051051.data.model
 
 import android.content.Context
 

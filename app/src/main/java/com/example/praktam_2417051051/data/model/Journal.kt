@@ -1,4 +1,4 @@
-package com.example.praktam_2417051051.model
+package com.example.praktam_2417051051.data.model
 
 import com.google.gson.annotations.SerializedName
 
@@ -9,6 +9,6 @@ data class Journal(
     @SerializedName("desc")
     val desc: String,
 
-    @SerializedName("image_url") // Mengubah dari image_name menjadi image_url sesuai tutorial Coil
+    @SerializedName("image_url")
     val imageUrl: String = ""
 )
