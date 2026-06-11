@@ -2,10 +2,14 @@ package com.example.praktam_2417051051.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val PurplePrimary = Color(0xFFD1B2FF)
-val PurpleSecondary = Color(0xFFEBD4FF)
-val PurpleBackground = Color(0xFFF5EEFF)
+val PrimaryPurple = Color(0xFFA855F7)
+
+val SoftPurple = Color(0xFFF4E8FF)
+
+val LightPurple = Color(0xFFF8F1FF)
+
+val DarkPurple = Color(0xFF6B21A8)
 
 val White = Color(0xFFFFFFFF)
-val TextDark = Color(0xFF1C1C1C)
-val GrayText = Color(0xFF666666)
+
+val Gray = Color(0xFF777777)

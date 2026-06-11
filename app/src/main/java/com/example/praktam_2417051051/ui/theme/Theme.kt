@@ -1,24 +1,32 @@
 package com.example.praktam_2417051051.ui.theme
 
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
-private val LightColorScheme = lightColorScheme(
-    primary = PurplePrimary,
-    secondary = PurpleSecondary,
-    background = PurpleBackground,
-    surface = White,
+import androidx.compose.ui.graphics.Color
+
+private val ThryveColors = lightColorScheme(
+    primary = PrimaryPurple,
     onPrimary = White,
-    onBackground = TextDark,
-    onSurface = TextDark
+    primaryContainer = SoftPurple,
+    onPrimaryContainer = DarkPurple,
+    background = Color(0xFFF8F5FC),
+    surface = White,
+    onBackground = Color(0xFF1F1235),
+    onSurface = Color(0xFF1F1235),
+    secondary = PrimaryPurple,
+    onSecondary = White,
+    surfaceVariant = LightPurple,
+    onSurfaceVariant = DarkPurple
 )
 
 @Composable
-fun PrakTAM_2417051051Theme(
+fun ThryveTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = LightColorScheme,
+        colorScheme = ThryveColors,
         typography = Typography,
         content = content
     )
